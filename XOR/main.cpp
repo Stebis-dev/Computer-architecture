@@ -72,8 +72,6 @@ int main(int argv, char **argc)
         a <<= 1;
     }
     cout << sum;
-    // int carry = 0;
-    // cout << Full_Adder(1, 1, carry);
     dataToCSV << sum;
     dataToCSV.close();
 
