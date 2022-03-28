@@ -1,6 +1,0 @@
-Swallow 2019 7
-Possessor 2020 8
-His_House 2020 7,5
-Cube 1997 8,5
-Run 2020 7
-The_Lighthouse 2019 9
