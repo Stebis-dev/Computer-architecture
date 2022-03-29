@@ -25,19 +25,18 @@ int XOR4(int a, int b)
 
 void add(int a, int &sum)
 {
-    int c;
-    while (sum != 0)
+    int c = 0;
+    while (sum > 0)
     {
         c = a & sum;
         a = XOR1(a, sum);
         sum = c << 1;
-        cout << a << " " << sum << " " << c << endl;
     }
 
     if (sum == 0)
-    {
         sum = a;
-    }
+
+    return;
 }
 int main(int argv, char **argc)
 {
@@ -46,6 +45,9 @@ int main(int argv, char **argc)
         cout << "No arguments";
         return 0;
     }
+    else if (argv > 3)
+        cout << "Gave more arguments than needed\n";
+
     int a = stoi(argc[1]), b = stoi(argc[2]);
 
     ofstream dataToCSV("rez.csv", ios::trunc);
@@ -57,21 +59,22 @@ int main(int argv, char **argc)
     cout << "XOR-3: " << XOR3(a, b) << '\n';
     cout << "XOR-4: " << XOR4(a, b) << '\n';
 
-    dataToCSV << ";;;;XOR-1: ;XOR-2: ;XOR-3: ;XOR-4: \n";
-    dataToCSV << a << ";^;" << b << ";=;" << XOR1(a, b) << ';' << XOR2(a, b) << ';' << XOR3(a, b) << ';' << XOR4(a, b) << "\n\n\nSandauga\n";
-    dataToCSV << a << ";*;" << b << ";=;";
+    char s = ',';
+    dataToCSV << s << s << s << s << "XOR-1:" << s << "XOR-2:" << s << "XOR-3:" << s << "XOR-4: \n";
+    dataToCSV << a << s << '^' << s << b << s << '=' << s << XOR1(a, b) << s << XOR2(a, b) << s << XOR3(a, b) << s << XOR4(a, b) << "\n\n\nSandauga\n";
+    dataToCSV << a << s << '*' << s << b << s << '=' << s;
+
     // sandauga
-    int sum = 0;
+    int sum = 0, safeA = a, safeB = b;
     while (b > 0)
     {
         if (b & 0b1 == 1)
-        {
             add(a, sum);
-        }
+
         b >>= 1;
         a <<= 1;
     }
-    cout << sum;
+    cout << safeA << " * " << safeB << " = " << sum;
     dataToCSV << sum;
     dataToCSV.close();
 
