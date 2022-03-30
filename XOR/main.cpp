@@ -26,6 +26,7 @@ int XOR4(int a, int b)
 void add(int a, int &sum)
 {
     int c = 0;
+    // half adder
     while (sum > 0)
     {
         c = a & sum;
