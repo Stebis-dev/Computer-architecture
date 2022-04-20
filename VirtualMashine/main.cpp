@@ -11,6 +11,9 @@ int main()
 
     ifstream data("1/decryptor.bin", ios::binary);
     ifstream dataFromFile("1/q1_encr.txt");
+
+    // ifstream data("2/VM-reiskinys.bin", ios::binary);
+    // ifstream dataFromFile("2/TekstinisFailas.txt");
     ofstream dataToFile("rez.txt");
 
     int t = 0;
@@ -23,6 +26,10 @@ int main()
         if (progMemory[i] > 0)
             t++;
     };
+    // for (int i = 0; i < 256; i += 2)
+    // {
+    //     cout << int(progMemory[i]) << " " << int(progMemory[i + 1]) << endl;
+    // }
     t++;
     data.close();
 
@@ -33,31 +40,42 @@ int main()
         command = progMemory[i];
         Rx = progMemory[i + 1] & 0b1111;
         Ry = progMemory[i + 1] >> 4;
-        /// cout << i + 1 << " " << int(command) << " " << int(progMemory[i + 1]) << " " << eof << " " << zero << endl;
         {
             if (command == 1)
             {
                 regs[Rx]++;
+                if (regs[Rx] == 0)
+                    zero = true;
             }
             else if (command == 2)
             {
                 regs[Rx]--;
+                if (regs[Rx] == 0)
+                    zero = true;
             }
             else if (command == 3)
             {
                 regs[Rx] = regs[Ry];
+                if (regs[Rx] == 0)
+                    zero = true;
             }
             else if (command == 4)
             {
                 regs[0] = progMemory[i + 1];
+                if (regs[0] == 0)
+                    zero = true;
             }
             else if (command == 5)
             {
                 regs[Rx] <<= 1;
+                if (regs[Rx] == 0)
+                    zero = true;
             }
             else if (command == 6)
             {
                 regs[Rx] >>= 1;
+                if (regs[Rx] == 0)
+                    zero = true;
             }
             else if (command == 7)
             {
@@ -125,18 +143,26 @@ int main()
             else if (command == 12)
             {
                 regs[Rx] = regs[Rx] + regs[Ry];
+                if (regs[Rx] == 0)
+                    zero = true;
             }
             else if (command == 13)
             {
                 regs[Rx] = regs[Rx] - regs[Ry];
+                if (regs[Rx] == 0)
+                    zero = true;
             }
             else if (command == 14)
             {
                 regs[Rx] = regs[Rx] ^ regs[Ry];
+                if (regs[Rx] == 0)
+                    zero = true;
             }
             else if (command == 15)
             {
                 regs[Rx] = regs[Rx] | regs[Ry];
+                if (regs[Rx] == 0)
+                    zero = true;
             }
             else if (command == 16)
             {
